@@ -102,12 +102,10 @@
         Catch all the falling hearts to unlock something special ✨
       </p>
 
-      <!-- Game Area -->
       <div id="balloonArea" class="relative w-full h-64 bg-pink-50 rounded-2xl mb-6 overflow-hidden">
         <div id="bucket">🪣</div>
       </div>
 
-      <!-- Proposal -->
       <div id="proposal" class="hidden pop">
         <h2 class="text-2xl font-semibold text-pink-500 mb-6">
           Will you be my Valentine? 🤍
@@ -135,7 +133,7 @@
     </div>
   </section>
 
-  <!-- PAGE 2 -->
+  <!-- PAGE 2 : SPECIAL MESSAGE -->
   <section id="page2" class="hidden min-h-screen flex flex-col items-center justify-start pt-10 pb-10">
     <div class="bg-white/90 backdrop-blur rounded-[2rem] shadow-2xl p-10 max-w-lg text-center border border-pink-300 pop">
       <h2 class="text-4xl font-bold text-pink-600 mb-6 script">For You 🤍</h2>
@@ -150,7 +148,42 @@
         Happy Valentine’s Day ✨
       </p>
 
-      <div class="mt-4">
+      <button onclick="goToGiftPage()"
+        class="mt-6 bg-pink-500 hover:bg-pink-600 text-white px-7 py-3 rounded-full text-lg font-semibold transition hover:scale-110 shadow-lg">
+        Continue 💕
+      </button>
+    </div>
+  </section>
+
+  <!-- PAGE 3 : GIFT PREFERENCE -->
+  <section id="page3" class="hidden min-h-screen flex flex-col items-center justify-start pt-10 pb-10">
+    <div class="bg-white/90 backdrop-blur rounded-[2rem] shadow-2xl p-10 max-w-lg text-center border border-pink-300 pop">
+
+      <h2 class="text-4xl font-bold text-pink-600 mb-4 script">
+        One More Thing 🤍
+      </h2>
+
+      <p class="text-gray-600 mb-6">
+        Tell me what gift would make you smile the most ✨
+      </p>
+
+      <textarea
+        id="giftInput"
+        rows="4"
+        placeholder="I would love something like… 💝"
+        class="w-full p-4 rounded-2xl border border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-400 resize-none text-gray-700"
+      ></textarea>
+
+      <button onclick="submitGift()"
+        class="mt-6 bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-full text-lg font-bold transition hover:scale-110 shadow-lg">
+        Submit 💌
+      </button>
+
+      <p id="giftThanks" class="hidden mt-6 text-pink-500 font-semibold text-lg">
+        Noted with love 🤍✨
+      </p>
+
+      <div class="mt-6">
         <button onclick="signOut()"
           class="bg-pink-400 hover:bg-pink-500 text-white px-5 py-2 rounded-full text-sm font-semibold transition hover:scale-105 shadow-md">
           Sign Out
@@ -191,9 +224,7 @@
       balloonArea.querySelectorAll('.falling-heart').forEach(h => h.remove());
       proposal.classList.add('hidden');
       heartsCaught = 0;
-
       bucket.style.left = '40%';
-
       clearInterval(gameInterval);
       gameInterval = setInterval(createFallingHeart, 900);
     }
@@ -203,7 +234,6 @@
       heart.className = 'falling-heart';
       heart.textContent = '💖';
       heart.style.left = Math.random() * 90 + '%';
-
       balloonArea.appendChild(heart);
 
       const checkCatch = setInterval(() => {
@@ -244,6 +274,19 @@
       document.getElementById('page2').classList.remove('hidden');
     }
 
+    function goToGiftPage() {
+      document.getElementById('page2').classList.add('hidden');
+      document.getElementById('page3').classList.remove('hidden');
+    }
+
+    function submitGift() {
+      const gift = document.getElementById('giftInput').value.trim();
+      if (gift !== "") {
+        document.getElementById('giftThanks').classList.remove('hidden');
+        console.log("Gift preference:", gift);
+      }
+    }
+
     function moveNo() {
       const btn = document.getElementById('noBtn');
       btn.style.transform =
@@ -253,6 +296,7 @@
     function signOut() {
       document.getElementById('page1').classList.add('hidden');
       document.getElementById('page2').classList.add('hidden');
+      document.getElementById('page3').classList.add('hidden');
       document.getElementById('login').classList.remove('hidden');
       music.pause();
       music.currentTime = 0;
@@ -260,7 +304,6 @@
       error.classList.add('hidden');
     }
 
-    // Floating background hearts
     const hearts = document.getElementById('hearts');
     setInterval(() => {
       const h = document.createElement('div');
